@@ -1,0 +1,24 @@
+---
+influxdb:
+  build: influxdb
+  env_file:
+    - ./env_file.env
+  expose:
+    - 8086
+    - 8088
+    - 8083
+    - 2003
+
+telegraf:
+  build: my_telegraf
+  env_file:
+    - ./env_file.env
+  links:
+    - influxdb
+
+grafana:
+  image: grafana/grafana
+  ports:
+    - '3000:3000'
+  links:
+    - influxdb
